@@ -99,8 +99,10 @@ module YARD
       private
 
       def generate_yardoc(safe_mode)
+        yardargs = "-n -q #{safe_mode ? '--safe' : ''}"
+        puts "GENERATING YARDOC"
         sh "cd #{source_path} &&
-          #{YARD::ROOT}/../bin/yardoc -n -q #{safe_mode ? '--safe' : ''}",
+          (test -e metadata.json && #{File.expand_path('../../scripts/puppet_strings.rb', __FILE__)} #{yardargs} || #{YARD::ROOT}/../bin/yardoc #{yardargs})",
           "Generating gem #{to_s}", false
       end
 

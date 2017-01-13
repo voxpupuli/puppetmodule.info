@@ -3,19 +3,19 @@
   <ul id="navigation">
     <li><a href="/featured">Featured</a></li>
     <li><a href="/stdlib">Stdlib</a></li>
-    <li class="selected">RubyGems</li>
-    <li><a href="/modules">Puppet Modules</a></li>
+    <li><a href="/gems">RubyGems</a></li>
+    <li class="selected">Puppet Modules</li>
     <li><a href="/github">GitHub</a></li>
-    <li class="search"><form action="/find/gems" method="GET"><input type="text" id="docSearch" name="q" value="<%= h @search %>" placeholder="Search Gems"/></form></li>
+    <li class="search"><form action="/find/modules" method="GET"><input type="text" id="docSearch" name="q" value="<%= h @search %>" placeholder="Search Gems"/></form></li>
   </ul>
   </nav>
-  <h2>RubyGems <%= h @search ? 'Search Results' : 'Listing' %></h2>
+  <h2>Puppet Modules <%= h @search ? 'Search Results' : 'Listing' %></h2>
   <ul class="alpha_index">
     <% (?a..?z).each do |letter| %>
       <% if letter == @letter %>
         <li class="selected"><%= letter.upcase %></li>
       <% else %>
-        <li><a href="/gems/~<%= letter %>"><%= letter.upcase %></a></li>
+        <li><a href="/modules/~<%= letter %>"><%= letter.upcase %></a></li>
       <% end %>
     <% end %>
   </ul>
@@ -60,5 +60,5 @@
     }
   });
 
-  $(function() { saveIndex('gems'); });
+  $(function() { saveIndex('modules'); });
 </script>

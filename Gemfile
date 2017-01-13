@@ -18,6 +18,8 @@ gem 'json'
 gem 'rake'
 gem 'asciidoctor'
 gem 'version_sorter'
+gem 'puppet'
+gem 'puppet-strings'
 gem 'yard', :git => 'git://github.com/lsegal/yard'
 gem 'yard-rails'
 gem 'yard-kramdown'
@@ -31,4 +33,5 @@ end
 
 group :production do
   gem 'puma'
+  gem 'passenger'
 end

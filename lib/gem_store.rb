@@ -12,36 +12,36 @@ unless GEM_STORE_DB.table_exists?(:remote_gems)
   end
 end
 
-class RemoteGem < Sequel::Model; end
+class RemoteGem < Sequel::Model(GEM_STORE_DB); end
 
 class GemStore
   include Enumerable
 
-  def [](name) to_versions(RemoteGem.first(name: name)) end
+  def [](name) to_versions(model.first(name: name)) end
   def []=(name, versions)
     versions = versions.split(' ') if versions.is_a?(String)
     versions = versions.map {|v| v.is_a?(YARD::Server::LibraryVersion) ? v.version : v }
     versions = VersionSorter.sort(versions)
-    if RemoteGem.where(name: name).count > 0
-      RemoteGem.first(name: name).update(versions: versions.join(" "))
+    if model.where(name: name).count > 0
+      model.first(name: name).update(versions: versions.join(" "))
     else
-      RemoteGem.create(name: name, versions: versions.join(" "))
+      model.create(name: name, versions: versions.join(" "))
     end
   end
 
   def delete(name)
-    RemoteGem.where(name: name).delete
+    model.where(name: name).delete
   end
 
-  def has_key?(name) !!RemoteGem.first(name: name) end
-  def each(&block) RemoteGem.each {|row| yield row.name, to_versions(row) } end
-  def size; RemoteGem.count end
+  def has_key?(name) !!model.first(name: name) end
+  def each(&block) model.each {|row| yield row.name, to_versions(row) } end
+  def size; model.count end
   def empty?; size == 0 end
 
   def each_of_letter(letter, &block)
     return enum_for(:each_of_letter, letter) unless block_given?
 
-    RemoteGem.where(Sequel.like(:name, "#{letter}%")).each do |row|
+    model.where(Sequel.like(:name, "#{letter}%")).each do |row|
       yield row.name, to_versions(row)
     end
   end
@@ -49,13 +49,13 @@ class GemStore
   def find_by(search)
     return enum_for(:find_by, search) unless block_given?
 
-    RemoteGem.where(Sequel.like(:name, "%#{search}%")).each do |row|
+    model.where(Sequel.like(:name, "%#{search}%")).each do |row|
       yield row.name, to_versions(row)
     end
   end
 
-  def keys; RemoteGem.all.map(&:name) end
-  def values; RemoteGem.all.map {|r| to_versions(r) } end
+  def keys; model.all.map(&:name) end
+  def values; model.all.map {|r| to_versions(r) } end
 
   private
 
@@ -63,9 +63,17 @@ class GemStore
     return nil unless row
     row.versions.split(" ").map do |v|
       ver, platform = *v.split(',')
-      lib = YARD::Server::LibraryVersion.new(row.name, ver, nil, :remote_gem)
+      lib = YARD::Server::LibraryVersion.new(row.name, ver, nil, source)
       lib.platform = platform
       lib
     end
+  end
+
+  def source
+    :remote_gem
+  end
+
+  def model
+    RemoteGem
   end
 end

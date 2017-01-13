@@ -6,12 +6,18 @@ require 'json'
 require 'fileutils'
 require 'airbrake'
 
+require 'puppet-strings'
+require 'puppet-strings/yard'
+PuppetStrings::Yard.setup!
+
 require 'extensions'
 require 'scm_router'
 require 'scm_checkout'
 require 'gem_updater'
 require 'gems_router'
+require 'modules_router'
 require 'gem_store'
+require 'module_store'
 require 'featured_router'
 require 'stdlib_router'
 require 'recent_store'
@@ -52,8 +58,10 @@ class DocServer < Sinatra::Base
 
     set :disallowed_projects, []
     set :disallowed_gems, []
+    set :disallowed_modules, []
     set :whitelisted_projects, []
     set :whitelisted_gems, []
+    set :whitelisted_modules, []
     set :caching, false
     set :airbrake, nil
     set :rubygems, ""
@@ -87,6 +95,15 @@ class DocServer < Sinatra::Base
     set :gems_adapter, $gems_adapter = RackAdapter.new(*opts.values)
   rescue Errno::ENOENT
     log.error "No remote_gems file to load remote gems from, not serving gems."
+  end
+
+  def self.load_modules_adapter
+    opts = adapter_options
+    opts[:libraries] = ModuleStore.new
+    opts[:options][:router] = ModulesRouter
+    set :modules_adapter, $modules_adapter = RackAdapter.new(*opts.values)
+  rescue Errno::ENOENT
+    log.error "No remote_modules file to load remote modules from, not serving modules."
   end
 
   def self.load_scm_adapter
@@ -185,6 +202,7 @@ class DocServer < Sinatra::Base
   configure do
     load_configuration
     load_gems_adapter
+    load_modules_adapter
     load_scm_adapter
     load_featured_adapter
     load_stdlib_adapter
@@ -349,6 +367,13 @@ class DocServer < Sinatra::Base
     cache erb(:gems_index)
   end
 
+  get %r{^/modules(?:/~([a-z])?|/)?$} do |letter|
+    @letter = letter || 'a'
+    @adapter = settings.modules_adapter
+    @libraries = @adapter.libraries.each_of_letter(@letter)
+    cache erb(:modules_index)
+  end
+
   get %r{^/(?:(?:search|list|static)/)?github/([^/]+)/([^/]+)} do |username, project|
     @username, @project = username, project
     if settings.whitelisted_projects.include?("#{username}/#{project}")
@@ -369,6 +394,18 @@ class DocServer < Sinatra::Base
     @gemname = gemname
     result = settings.gems_adapter.call(env)
     return status(404) && erb(:gems_404) if result.first == 404
+    result
+  end
+
+  get %r{^/(?:(?:search|list|static)/)?modules/([^/]+)} do |modulename|
+    return status(503) && "Cannot parse this Puppet module" if settings.disallowed_modules.include?(modulename)
+    if settings.whitelisted_modules.include?(modulename)
+      puts "Dropping safe mode for #{modulename}"
+      YARD::Config.options[:safe_mode] = false
+    end
+    @modulename = modulename
+    result = settings.modules_adapter.call(env)
+    return status(404) && erb(:modules_404) if result.first == 404
     result
   end
 
@@ -471,5 +508,5 @@ class DocServer < Sinatra::Base
       issue, but feel free to email <a href='mailto:support@rdoc.info'>someone</a>
       about it."
     notify_error
-  end
+  end if settings.airbrake && %w(staging production).include?(ENV['RACK_ENV'])
 end

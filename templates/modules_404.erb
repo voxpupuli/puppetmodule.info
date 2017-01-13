@@ -1,0 +1,12 @@
+<div id="content" class="scm fof">
+  <h1>Oops,</h1>
+  <% if settings.modules_adapter.libraries.has_key?(@modulename) %>
+    <h2 class="nomargin">We Couldn't Find That Page</h2>
+    <p>Sorry, but we couldn't find the page <strong><%= h request.path %></strong> in the <strong><%= h @modulename %></strong> Puppet module. Are you sure that class or defined type exists?</p>
+  <% else %>
+    <h2 class="nomargin">We Couldn't Find That Module</h2>
+    <p>We can't seem to find any versions for the Puppet module <strong><%= h @modulename %></strong>. Are you sure you typed it correctly?</p>
+  <% end %>
+
+  <p>You can also see a list of available Puppet modules <a href="/modules">here</a>.</p>
+</div>

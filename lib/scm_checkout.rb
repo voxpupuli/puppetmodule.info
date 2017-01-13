@@ -109,7 +109,8 @@ class GithubCheckout < ScmCheckout
   end
 
   def checkout_command
-    "#{git_checkout_command} && #{YARD::ROOT}/../bin/yardoc -n -q #{YARD::Config.options[:safe_mode] ? '--safe' : ''}"
+    yardargs = "-n -q #{YARD::Config.options[:safe_mode] ? '--safe' : ''}"
+    "#{git_checkout_command} && (test -e metadata.json && #{File.expand_path('../../scripts/puppet_strings.rb', __FILE__)} #{yardargs} || #{YARD::ROOT}/../bin/yardoc #{yardargs})"
   end
 
   def clear_source_files
