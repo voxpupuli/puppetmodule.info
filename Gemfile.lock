@@ -4,6 +4,14 @@ GIT
   specs:
     yard (0.9.6)
 
+GIT
+  remote: https://github.com/domcleal/puppet-strings
+  revision: a398e03493c0eea4dd1e30e85fab045bd106e18d
+  branch: PDOC-159-namespace-links
+  specs:
+    puppet-strings (1.0.0)
+      yard (~> 0.9.5)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -43,8 +51,6 @@ GEM
       facter (> 2.0, < 4)
       hiera (>= 2.0, < 4)
       json_pure
-    puppet-strings (1.0.0)
-      yard (~> 0.9.5)
     rack (1.6.4)
     rack-protection (1.5.0)
       rack
@@ -99,7 +105,7 @@ DEPENDENCIES
   passenger
   puma
   puppet
-  puppet-strings
+  puppet-strings!
   rake
   rdiscount
   rdoc (= 3.9.4)
