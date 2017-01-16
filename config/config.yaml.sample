@@ -1,10 +1,10 @@
 # Sample configuration file
 
-# Display name. Defaults to RubyDoc.info
-# name: RubyDoc.info
+# Display name. Defaults to PuppetModule.info
+# name: PuppetModule.info
 
-# Base URL. Defaults to http://www.rubydoc.info
-# url: http://www.rubydoc.info
+# Base URL. Defaults to http://www.puppetmodule.info
+# url: http://www.puppetmodule.info
 
 # Whether or not disk caching is enabled. Defaults to false
 # caching: false

@@ -53,8 +53,8 @@ class DocServer < Sinatra::Base
   end
 
   def self.load_configuration
-    set :name, 'RubyDoc.info'
-    set :url, 'http://www.rubydoc.info'
+    set :name, 'PuppetModule.info'
+    set :url, 'http://www.puppetmodule.info'
 
     set :disallowed_projects, []
     set :disallowed_gems, []
