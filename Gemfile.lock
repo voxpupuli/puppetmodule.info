@@ -31,6 +31,18 @@ GEM
     builder (3.2.2)
     diff-lcs (1.2.5)
     facter (2.4.6)
+    faraday (0.9.2)
+      multipart-post (>= 1.2, < 3)
+    faraday_middleware (0.10.1)
+      faraday (>= 0.7.4, < 1.0)
+    fast_gettext (1.1.0)
+    gettext (3.2.2)
+      locale (>= 2.0.5)
+      text (>= 1.3.0)
+    gettext-setup (0.11)
+      fast_gettext (~> 1.1.0)
+      gettext (>= 3.0.2)
+      locale
     github-markup (0.7.5)
     hiera (3.1.2)
       json_pure
@@ -38,10 +50,13 @@ GEM
     json (1.8.3)
     json_pure (1.8.3)
     kramdown (1.1.0)
+    locale (2.1.2)
     maruku (0.6.1)
       syntax (>= 1.0.0)
+    minitar (0.5.4)
     minitest (4.7.5)
     multi_json (1.7.9)
+    multipart-post (2.0.0)
     net-http-persistent (2.9)
     passenger (5.1.1)
       rack
@@ -52,6 +67,12 @@ GEM
       facter (> 2.0, < 4)
       hiera (>= 2.0, < 4)
       json_pure
+    puppet_forge (2.2.2)
+      faraday (~> 0.9.0)
+      faraday_middleware (>= 0.9.0, < 0.11.0)
+      gettext-setup (>= 0.3)
+      minitar
+      semantic_puppet (~> 0.1.0)
     rack (1.6.4)
     rack-protection (1.5.0)
       rack
@@ -72,6 +93,8 @@ GEM
     rspec-mocks (3.0.4)
       rspec-support (~> 3.0.0)
     rspec-support (3.0.4)
+    semantic_puppet (0.1.4)
+      gettext-setup (>= 0.3)
     sequel (4.1.1)
     sinatra (1.4.3)
       rack (~> 1.4)
@@ -79,6 +102,7 @@ GEM
       tilt (~> 1.3, >= 1.3.4)
     sqlite3 (1.3.9)
     syntax (1.0.0)
+    text (1.3.1)
     thread_safe (0.1.2)
       atomic
     tilt (1.4.1)
@@ -109,6 +133,7 @@ DEPENDENCIES
   puma
   puppet
   puppet-strings!
+  puppet_forge
   rack-timeout
   rake
   rdiscount

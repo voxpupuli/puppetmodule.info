@@ -36,6 +36,14 @@ namespace :gems do
   end
 end
 
+namespace :modules do
+  desc 'Update module list from forge.puppet.com'
+  task :update do
+    puts ">> Updating Remote Modules file (local cache)"
+    load('scripts/update_remote_modules.rb')
+  end
+end
+
 namespace :docs do
   desc 'Clean up old docs to conserve space'
   task :clean do

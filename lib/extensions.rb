@@ -1,6 +1,7 @@
 require 'fileutils'
 require 'open-uri'
 require 'rubygems/package'
+require 'puppet_forge'
 
 module YARD
   module Server
@@ -74,8 +75,38 @@ module YARD
         raise LibraryNotPreparedError
       end
 
+      def load_yardoc_from_remote_module
+        if File.directory?(source_path)
+          return if ready?
+          raise LibraryNotPreparedError
+        end
+
+        # Remote module (tarball) from forge.puppet.com
+        puts "#{Time.now}: Downloading remote module tarball for release #{to_s(false)}"
+
+        FileUtils.mkdir_p(source_path)
+
+        safe_mode = YARD::Config.options[:safe_mode]
+
+        Thread.new do
+          begin
+						expand_module
+						generate_yardoc(safe_mode)
+						clean_source(safe_mode)
+          rescue Exception => e
+            puts "#{Time.now}: ERROR DOWNLOADING MODULE #{to_s(false)}! (#{e.message})"
+            FileUtils.rmdir(source_path)
+          end
+        end
+        raise LibraryNotPreparedError
+      end
+
       def source_path_for_remote_gem
         File.join(::REMOTE_GEMS_PATH, name[0].downcase, name, version)
+      end
+
+      def source_path_for_remote_module
+        File.join(::REMOTE_MODS_PATH, name[0].downcase, name, version)
       end
 
       def source_path_for_disk_on_demand
@@ -93,6 +124,7 @@ module YARD
       end
 
       alias yardoc_file_for_remote_gem source_yardoc_file
+      alias yardoc_file_for_remote_module source_yardoc_file
       alias yardoc_file_for_disk_on_demand source_yardoc_file
       alias yardoc_file_for_github source_yardoc_file
 
@@ -136,6 +168,22 @@ module YARD
             end
           end
         end
+      end
+
+      def expand_module
+        puts "Expanding remote module #{to_s(false)} to #{source_path}..."
+
+        release = PuppetForge::Release.find(to_s(false))
+        puts "Downloading remote module from #{release.download_url}"
+
+        tmp = Pathname.new(__FILE__) + '../../tmp' + to_s(false)
+        tmp.mkdir
+
+        tarball = tmp + "#{to_s(false)}.tar.gz"
+        release.download(tarball)
+        release.verify(tarball)
+
+        PuppetForge::Unpacker.unpack(tarball, source_path, tmp.to_s)
       end
 
       def clean_source(safe_mode)
