@@ -41,6 +41,7 @@ namespace :modules do
   task :update do
     puts ">> Updating Remote Modules file (local cache)"
     load('scripts/update_remote_modules.rb')
+    puts ">> Finished updating Remote Modules file (local cache)"
   end
 end
 
