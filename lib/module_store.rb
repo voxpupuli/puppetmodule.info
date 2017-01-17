@@ -1,6 +1,6 @@
 require_relative 'gem_store'
 
-MOD_STORE_DB = Sequel.sqlite(REMOTE_MODS_FILE)
+MOD_STORE_DB = defined?(DATABASE_URL) ? Sequel.connect(DATABASE_URL) : Sequel.sqlite(REMOTE_MODS_FILE)
 unless MOD_STORE_DB.table_exists?(:remote_modules)
   MOD_STORE_DB.create_table(:remote_modules) do
     primary_key :id

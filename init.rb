@@ -31,9 +31,15 @@ TMP_PATH         = __p('tmp')
 DATA_PATH        = __p('data')
 TEMPLATES_PATH   = __p('templates')
 CONFIG_FILE      = __p('config', 'config.yaml', :file)
-REMOTE_GEMS_FILE = __p('data', 'remote_gems.sqlite', :file)
-REMOTE_MODS_FILE = __p('data', 'remote_modules.sqlite', :file)
-RECENT_SQL_FILE  = __p('data', 'recent.sqlite', :file)
+
+# Prefer database from Heroku environment
+if ENV.has_key?('DATABASE_URL')
+  DATABASE_URL = ENV['DATABASE_URL']
+else
+  REMOTE_GEMS_FILE = __p('data', 'remote_gems.sqlite', :file)
+  REMOTE_MODS_FILE = __p('data', 'remote_modules.sqlite', :file)
+  RECENT_SQL_FILE  = __p('data', 'recent.sqlite', :file)
+end
 
 require_relative 'lib/helpers'
 require_relative 'lib/cache'

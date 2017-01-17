@@ -11,7 +11,6 @@ gem 'github-markup'
 gem 'rdiscount'
 gem 'bluecloth'
 gem 'RedCloth'
-gem 'sqlite3'
 gem 'sequel'
 gem 'syntax'
 gem 'json'
@@ -27,6 +26,10 @@ gem 'yard-sd'
 gem 'i18n'
 gem 'net-http-persistent', '~> 2.0'
 
+group :development do
+  gem 'sqlite3'
+end
+
 group :test do
   gem 'rspec', '~> 3.0.0', :require => 'spec'
 end
@@ -34,4 +37,5 @@ end
 group :production do
   gem 'puma'
   gem 'passenger'
+  gem 'pg'
 end

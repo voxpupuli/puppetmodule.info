@@ -3,7 +3,7 @@ require 'base64'
 require 'version_sorter'
 require_relative 'extensions'
 
-GEM_STORE_DB = Sequel.sqlite(REMOTE_GEMS_FILE)
+GEM_STORE_DB = defined?(DATABASE_URL) ? Sequel.connect(DATABASE_URL) : Sequel.sqlite(REMOTE_GEMS_FILE)
 unless GEM_STORE_DB.table_exists?(:remote_gems)
   GEM_STORE_DB.create_table(:remote_gems) do
     primary_key :id
