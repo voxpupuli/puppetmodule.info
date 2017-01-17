@@ -3,7 +3,7 @@ config/config.yaml
 tmp
 repos
 data
-log
+log/*.log
 recent.sqlite
 public/.htaccess
 public/sitemap.xml
