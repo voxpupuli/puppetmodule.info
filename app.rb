@@ -192,13 +192,6 @@ class DocServer < Sinatra::Base
   set :repos, REPOS_PATH
   set :tmp, TMP_PATH
 
-  configure(:production) do
-    # log to file
-    file = File.open("log/sinatra.log", "a")
-    STDOUT.reopen(file)
-    STDERR.reopen(file)
-  end unless ENV['DOCKERIZED']
-
   configure do
     load_configuration
     load_gems_adapter
