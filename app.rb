@@ -461,6 +461,14 @@ class DocServer < Sinatra::Base
     erb(:gems_index)
   end
 
+  get %r{^/find/modules} do
+    self.class.load_modules_adapter unless defined? settings.modules_adapter
+    @search = params[:q] || ''
+    @adapter = settings.modules_adapter || status(404)
+    @libraries = @adapter.libraries.find_by(@search)
+    erb(:modules_index)
+  end
+
   # Redirect /docs/ruby-core
   get(%r{^/docs/ruby-core/?(.*)}) do |all|
     redirect("/stdlib/core/#{all}", 301)
