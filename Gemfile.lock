@@ -55,6 +55,7 @@ GEM
     rack (1.6.4)
     rack-protection (1.5.0)
       rack
+    rack-timeout (0.4.2)
     rake (11.2.2)
     rdiscount (2.1.7)
     rdoc (3.9.4)
@@ -108,6 +109,7 @@ DEPENDENCIES
   puma
   puppet
   puppet-strings!
+  rack-timeout
   rake
   rdiscount
   rdoc (= 3.9.4)

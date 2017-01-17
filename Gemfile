@@ -25,8 +25,10 @@ gem 'yard-kramdown'
 gem 'yard-sd'
 gem 'i18n'
 gem 'net-http-persistent', '~> 2.0'
+gem 'rack-timeout'
 
 group :development do
+  gem 'passenger'
   gem 'sqlite3'
 end
 
@@ -36,6 +38,5 @@ end
 
 group :production do
   gem 'puma'
-  gem 'passenger'
   gem 'pg'
 end
