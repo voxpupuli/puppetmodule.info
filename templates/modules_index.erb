@@ -45,6 +45,7 @@
         <small>(<%= h first_lib.version %><% if library_versions.size > 0 %>,
           <%= library_versions.reverse[0..3].map {|lib| "<a href=\"#/#{@adapter.router.docs_prefix}/#{lib}\">#{lib.version}</a>" }.join(', ') %><% end %>)</small>
       <% end %>
+      <a href="https://forge.puppet.com/<%= h first_lib.name.sub('-', '/') %>" title="View this project on Puppet Forge"><i class="fa fa-gavel icon"></i></a>
     </li>
     <% end %>
   </ul>
