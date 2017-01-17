@@ -7,8 +7,8 @@ GEM_STORE_DB = defined?(DATABASE_URL) ? Sequel.connect(DATABASE_URL) : Sequel.sq
 unless GEM_STORE_DB.table_exists?(:remote_gems)
   GEM_STORE_DB.create_table(:remote_gems) do
     primary_key :id
-    string :name
-    text :versions
+    String :name
+    String :versions, text: true
   end
 end
 

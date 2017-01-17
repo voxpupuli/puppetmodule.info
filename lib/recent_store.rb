@@ -5,10 +5,10 @@ RECENT_STORE_DB = defined?(DATABASE_URL) ? Sequel.connect(DATABASE_URL) : Sequel
 unless RECENT_STORE_DB.table_exists?(:library_stores)
   RECENT_STORE_DB.create_table(:library_stores) do
     primary_key :id
-    string :name
-    string :source
-    text :versions
-    timestamp :created_at
+    String :name
+    String :source
+    String :versions, text: true
+    Time :created_at
   end
 end
 
