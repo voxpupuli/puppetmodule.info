@@ -293,7 +293,7 @@ class DocServer < Sinatra::Base
     end
   end
 
-  def update_github(url, commit)
+  def update_github(url, commit = nil)
     return "INVALIDSCHEME" unless url && url != ''
 
     begin
@@ -374,7 +374,11 @@ class DocServer < Sinatra::Base
       YARD::Config.options[:safe_mode] = false
     end
     result = settings.scm_adapter.call(env)
-    return status(404) && erb(:scm_404) if result.first == 404
+    if result.first == 404
+      update_github("https://github.com/#{username}/#{project}")
+      result = settings.scm_adapter.call(env)
+      return status(404) && erb(:scm_404) if result.first == 404
+    end
     result
   end
 
