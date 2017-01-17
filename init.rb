@@ -31,6 +31,7 @@ TMP_PATH         = __p('tmp')
 DATA_PATH        = __p('data')
 TEMPLATES_PATH   = __p('templates')
 CONFIG_FILE      = __p('config', 'config.yaml', :file)
+CONFIG_DIST      = __p('config', 'config.yaml.dist', :file)
 
 # Prefer database from Heroku environment
 if ENV.has_key?('DATABASE_URL')

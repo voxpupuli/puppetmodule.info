@@ -2,10 +2,12 @@ class Configuration < Hash
   def self.load
     config = Configuration.new
 
-    if File.file?(CONFIG_FILE)
-      (YAML.load_file(CONFIG_FILE) || {}).each do |key, value|
-        config[key] = value
-        define_method(key) { self[key] }
+    [CONFIG_DIST, CONFIG_FILE].each do |config_file|
+      if File.file?(config_file)
+        (YAML.load_file(config_file) || {}).each do |key, value|
+          config[key] = value
+          define_method(key) { self[key] }
+        end
       end
     end
 

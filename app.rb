@@ -135,6 +135,8 @@ class DocServer < Sinatra::Base
       when String
         if value == "gem"
           $gems_adapter && $gems_adapter.libraries[key] ? $gems_adapter.libraries[key] : []
+        elsif value == "module"
+          $modules_adapter && $modules_adapter.libraries[key] ? $modules_adapter.libraries[key] : []
         else
           [LibraryVersion.new(key, nil, find_featured_yardoc(key, value))]
         end
