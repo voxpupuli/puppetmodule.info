@@ -27,7 +27,10 @@ class ModuleUpdater
   class << self
     def fetch_remote_modules
       libs = {}
-      PuppetForge::Module.where(sort_by: 'latest_release').unpaginated.each do |mod|
+      module_enum = PuppetForge::Module.where(sort_by: 'latest_release')
+      # If MODULE_UPDATER_LIMIT is set, only load the first page of data (for development)
+      module_enum = module_enum.unpaginated unless ENV.has_key?('MODULE_UPDATER_LIMIT')
+      module_enum.each do |mod|
         libs[mod.slug] = mod.releases.map do |release|
           ModuleVersion.new(mod.slug, release.version)
         end
