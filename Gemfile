@@ -26,6 +26,7 @@ gem 'yard-sd'
 gem 'i18n'
 gem 'net-http-persistent', '~> 2.0'
 gem 'rack-timeout'
+gem 'puppet_forge'
 
 group :development do
   gem 'passenger'
