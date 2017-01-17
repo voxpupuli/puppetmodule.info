@@ -6,7 +6,7 @@ PuppetModule.info is the next generation Puppet module doc server.
 This doc server uses YARD to generate project documentation on the fly, for
 both published Puppet modules as well as GitHub projects.
 
-The public doc server is hosted at [http://www.rubydoc.info](http://www.rubydoc.info)
+The public doc server is hosted at [http://puppetmodule.info](http://puppetmodule.info)
 
 It relies on:
 
