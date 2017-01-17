@@ -6,7 +6,7 @@ GIT
 
 GIT
   remote: https://github.com/domcleal/puppet-strings
-  revision: a398e03493c0eea4dd1e30e85fab045bd106e18d
+  revision: c09cda723af5d34147e26ee62906fe05aac871c6
   branch: PDOC-159-namespace-links
   specs:
     puppet-strings (1.0.0)
