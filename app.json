@@ -1,0 +1,12 @@
+{
+  "name": "PuppetModule.info",
+  "description": "Provides documentation for Puppet modules",
+  "keywords": [
+    "puppet",
+    "documentation",
+    "docs"
+  ],
+  "website": "http://puppetmodule.info/",
+  "repository": "https://github.com/domcleal/puppetmodule.info",
+  "image": "heroku/ruby"
+}
