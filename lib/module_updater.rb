@@ -76,6 +76,40 @@ class ModuleUpdater
       [changed_modules, removed_modules]
     end
 
+    # Update the DB from only the latest release information, won't pick up deletions
+    # or perform a thorough check.
+    def update_partial_remote_modules
+      releases = PuppetForge::Release.where(sort_by: 'release_date')
+
+      store = ModuleStore.new
+      changed_modules = []
+
+      RemoteModule.db.transaction do
+        releases.each do |release|
+          row = RemoteModule.where(name: release.module.slug).first
+
+          if row.nil?
+            row = RemoteModule.create(name: release.module.slug, versions: release.version)
+          else
+            versions = row.versions.split(' ')
+
+            # short-circuit exit, reached the first of the known releases
+            break if versions.include?(release.version)
+
+            store[row.name] = versions.unshift(release.version)
+          end
+
+          changed_modules << row.name
+        end
+      end
+
+      changed_modules.each do |module_name|
+        flush_cache(module_name)
+      end
+
+      changed_modules
+    end
+
     def pick_best_versions(versions)
       seen = {}
       uniqversions = []

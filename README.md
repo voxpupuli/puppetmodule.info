@@ -30,6 +30,21 @@ $ rake gems:update
 $ rackup config.ru
 ```
 
+Rake tasks
+----------
+
+Important rake tasks for deployment:
+
+* `rake modules:update MODULE_UPDATER_PARTIAL=true` - run regularly (hourly)
+  to scrape the latest module releases from Puppet Forge.
+* `rake modules:update` - run infrequently (daily) to check all known Forge
+  modules, for deletions etc.
+
+For development:
+
+* `rake modules:update MODULE_UPDATER_LIMIT=true` - import only the first page
+  of Forge modules for a small dataset, fast and reduces load.
+
 Thanks
 ------
 
