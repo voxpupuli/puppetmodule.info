@@ -1,7 +1,7 @@
+require_relative 'puppet_forge_agent'
 require 'fileutils'
 require 'open-uri'
 require 'rubygems/package'
-require 'puppet_forge'
 
 module YARD
   module Server

@@ -1,10 +1,8 @@
 require_relative 'cache'
 require_relative 'module_store'
-require 'puppet_forge'
+require_relative 'puppet_forge_agent'
 require 'version_sorter'
 require 'yard'
-
-PuppetForge.user_agent = 'PuppetModule.info (github.com/domcleal/puppetmodule.info/issues)'
 
 class ModuleVersion
   attr_accessor :name, :version
