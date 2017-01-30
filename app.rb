@@ -408,6 +408,10 @@ class DocServer < Sinatra::Base
     result
   end
 
+  get %r{^/m/([^/]+)} do |modulename|
+    redirect to("/modules/#{modulename}")
+  end
+
   # Stdlib
 
   get %r{^/(?:(?:search|list|static)/)?stdlib/([^/]+)} do |libname|
