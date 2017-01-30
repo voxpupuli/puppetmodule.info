@@ -6,7 +6,10 @@
 # absolute path.
 #
 featured:
+  puppetlabs-apache: module
+  puppetlabs-postgresql: module
   puppet-selinux: module
+  puppet-virtualbox: module
 
 #
 # You can also add libraries by version:
