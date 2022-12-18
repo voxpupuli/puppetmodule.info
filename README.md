@@ -23,11 +23,12 @@ enhancements are welcome.
 Running the doc server locally is easy:
 
 ```
-$ git clone git://github.com/domcleal/puppetmodule.info
-$ cd puppetmodule.info
-$ bundle install
-$ rake gems:update
-$ rackup config.ru
+git clone git://github.com/voxpupuli/puppetmodule.info
+cd puppetmodule.info
+bundle config --local path .vendor/
+bundle install
+bundle exec rake modules:update
+bundle exec puma --config config/puma.rb
 ```
 
 Rake tasks
@@ -48,9 +49,11 @@ For development:
 Thanks
 ------
 
-PuppetModule.info is maintained by Dominic Cleal, and is unaffiliated to Puppet.
+PuppetModule.info was authored and maintained by Dominic Cleal, and is unaffiliated to Puppet.
 RubyDoc.info was created by Loren Segal (YARD) and Nick Plante (rdoc.info) and is a project of DOCMETA, LLC.
 Additional help was provided by [YARD's friendly developer community](https://github.com/lsegal/rubydoc.info/graphs/contributors).
+
+Dominic ran the site for years, until he donated it to Vox Pupuli.
 Pull requests welcome!
 
-(c) 2015 DOCMETA LLC, 2017 Dominic Cleal. This code is distributed under the MIT license.
+(c) 2015 DOCMETA LLC, 2017 Dominic Cleal, 2022-2023 Vox Pupuli. This code is distributed under the MIT license.
