@@ -19,13 +19,6 @@
 # If you use DISQUS for comments, uncomment the following line:
 # disqus: YOUR_DISQUS_USERNAME
 
-# If you want to use Clicky, uncomment the following line and add your Site ID:
-# clicky: YOUR_SITE_ID
-
-# If you want to use Google Analytics, uncomment the following line and add
-# your Site ID:
-# google_analytics: YOUR_SITE_ID
-
 # If you want to add a Tender help desk support link, uncomment the following
 # line and add your Site ID:
 # tender: YOUR_SITE_ID
