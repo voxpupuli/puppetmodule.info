@@ -1,5 +1,4 @@
 .bundle
-config/config.yaml
 tmp
 repos
 data
