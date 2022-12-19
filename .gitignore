@@ -19,3 +19,4 @@ public/js/jquery.js
 public/js/rubydoc_custom.js
 public/images/processing.gif
 vendor
+.vendor
