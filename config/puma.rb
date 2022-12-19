@@ -5,7 +5,7 @@ root = File.dirname(__FILE__) + '/../'
 directory root
 rackup root + 'config.ru'
 environment 'production'
-bind 'tcp://0.0.0.0:8080'
+bind 'tcp://127.0.0.1:8080'
 #daemonize unless ENV['DOCKERIZED']
 #pidfile root + 'tmp/pids/server.pid'
 #unless ENV['DOCKERIZED']
