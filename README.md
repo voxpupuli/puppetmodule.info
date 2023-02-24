@@ -23,12 +23,12 @@ enhancements are welcome.
 Running the doc server locally is easy:
 
 ```
-git clone git://github.com/voxpupuli/puppetmodule.info
+git clone https://github.com/voxpupuli/puppetmodule.info
 cd puppetmodule.info
 bundle config --local path .vendor/
 bundle install
 bundle exec rake modules:update
-bundle exec puma --config config/puma.rb
+bundle exec rackup
 ```
 
 Rake tasks
