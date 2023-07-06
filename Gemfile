@@ -18,8 +18,8 @@ gem 'rake'
 gem 'asciidoctor'
 gem 'version_sorter'
 gem 'puppet'
-gem 'puppet-strings', :git => 'https://github.com/domcleal/puppet-strings', :branch => 'PDOC-159-namespace-links'
-gem 'yard', :git => 'git://github.com/lsegal/yard'
+gem 'puppet-strings'
+gem 'yard'
 gem 'yard-rails'
 gem 'yard-kramdown'
 gem 'yard-sd'
@@ -34,7 +34,7 @@ group :development do
 end
 
 group :test do
-  gem 'rspec', '~> 3.0.0', :require => 'spec'
+  gem 'rspec'
 end
 
 group :production do
