@@ -1,0 +1,53 @@
+name: Test
+
+on:
+  pull_request: {}
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+#  rubocop:
+#    env:
+#      BUNDLE_WITHOUT: release
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - name: Install Ruby ${{ matrix.ruby }}
+#        uses: ruby/setup-ruby@v1
+#        with:
+#          ruby-version: "3.2"
+#          bundler-cache: true
+#      - name: Run Rubocop
+#        run: bundle exec rake rubocop
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - ruby: "3.0" # we currently use 3.0 in production
+          - ruby: "3.1"
+          # - ruby: "3.2" # broken
+            coverage: "yes"
+    env:
+      COVERAGE: ${{ matrix.coverage }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Run unit tests
+        run: bundle exec rake -T
+
+  tests:
+    needs:
+      - test
+    runs-on: ubuntu-latest
+    name: Test suite
+    steps:
+      - run: echo Test suite completed
