@@ -47,8 +47,8 @@ class ModuleUpdater
 
       RemoteModule.db.transaction do
         libs.each do |name, versions|
-          versions = pick_best_versions(versions)
-          if changed_modules[name] && (versions|changed_modules[name]).size == versions.size
+          versions = pick_best_versions(versions).sort
+          if changed_modules[name] && (changed_modules[name].sort == versions)
             changed_modules.delete(name)
           elsif changed_modules[name]
             store[name] = versions
