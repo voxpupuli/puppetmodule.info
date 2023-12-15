@@ -24,7 +24,7 @@ gem 'yard-rails'
 gem 'yard-kramdown'
 gem 'yard-sd'
 gem 'i18n'
-gem 'net-http-persistent', '~> 2.0'
+gem 'net-http-persistent', '~> 4.0', '>= 4.0.2'
 gem 'rack-timeout'
 gem 'puppet_forge'
 
