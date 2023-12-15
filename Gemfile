@@ -40,4 +40,5 @@ end
 group :production do
   gem 'puma'
   gem 'pg'
+  gem 'sd_notify', '~> 0.1.1'
 end
