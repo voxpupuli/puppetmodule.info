@@ -1,10 +1,11 @@
-FROM ruby:2.3
-MAINTAINER Loren Segal <lsegal@soen.ca>
+FROM ruby:3.0
+MAINTAINER Vox Pupuli <voxpupuli@groups.io>
+
+ENV RACK_ENV production
 
 # Bundle first to keep cache
 ADD ./Gemfile /app/Gemfile
 ADD ./Gemfile.lock /app/Gemfile.lock
-ADD ./.bundle /app/.bundle
 WORKDIR /app
 RUN bundle --without test
 
