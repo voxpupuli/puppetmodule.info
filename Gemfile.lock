@@ -92,7 +92,7 @@ GEM
     rake (13.1.0)
     rbtree3 (0.7.1)
     rdiscount (2.2.7.1)
-    rdoc (6.6.1)
+    rdoc (6.6.2)
       psych (>= 4.0.0)
     redcarpet (3.6.0)
     rexml (3.2.6)
@@ -158,7 +158,7 @@ DEPENDENCIES
   rack-timeout
   rake
   rdiscount
-  rdoc (~> 6.6, >= 6.6.1)
+  rdoc (~> 6.6)
   redcarpet (~> 3.6)
   rspec (~> 3.12)
   sd_notify (~> 0.1.1)
