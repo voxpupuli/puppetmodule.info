@@ -91,7 +91,7 @@ GEM
     rack-timeout (0.6.3)
     rake (13.1.0)
     rbtree3 (0.7.1)
-    rdiscount (2.2.7.1)
+    rdiscount (2.2.7.3)
     rdoc (6.6.2)
       psych (>= 4.0.0)
     redcarpet (3.6.0)
