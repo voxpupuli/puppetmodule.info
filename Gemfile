@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'sinatra', '~> 1.4', '>= 1.4.8'
+gem 'sinatra', '~> 2.2'
 gem 'activesupport'
 gem 'airbrake'
 gem 'rdoc', '~> 6.6'
