@@ -34,7 +34,7 @@ group :development do
 end
 
 group :test do
-  gem 'rspec', '~> 3.12', :require => 'spec'
+  gem 'rspec', '~> 3.13', :require => 'spec'
 end
 
 group :production do
