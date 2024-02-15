@@ -58,7 +58,7 @@ GEM
     passenger (6.0.19)
       rack
       rake (>= 0.8.1)
-    pg (1.5.4)
+    pg (1.5.5)
     psych (5.1.1.1)
       stringio
     puma (6.4.2)
