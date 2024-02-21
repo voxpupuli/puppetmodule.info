@@ -299,7 +299,7 @@ class DocServer < Sinatra::Base
     return "INVALIDSCHEME" unless url && url != ''
 
     begin
-      url = (url || '').sub(%r{^http://}, 'git://')
+      url = (url || '').sub(%r{^http://}, 'https://')
       commit = nil if commit == ''
 
       if url =~ %r{github\.com/([^/]+)/([^/]+)}
@@ -341,7 +341,7 @@ class DocServer < Sinatra::Base
 
   # Main URL handlers
 
-  get %r{^/github(?:/~([a-z])?|/)?$} do |letter|
+  get %r{/github(?:/~([a-z])?|/)?} do |letter|
     if letter.nil?
       @adapter = settings.scm_adapter
       @libraries = recent_store
@@ -355,21 +355,21 @@ class DocServer < Sinatra::Base
     end
   end
 
-  get %r{^/gems(?:/~([a-z])?|/)?$} do |letter|
+  get %r{/gems(?:/~([a-z])?|/)?} do |letter|
     @letter = letter || 'a'
     @adapter = settings.gems_adapter
     @libraries = @adapter.libraries.each_of_letter(@letter)
     cache erb(:gems_index)
   end
 
-  get %r{^/modules(?:/~([a-z])?|/)?$} do |letter|
+  get %r{/modules(?:/~([a-z])?|/)?} do |letter|
     @letter = letter || 'a'
     @adapter = settings.modules_adapter
     @libraries = @adapter.libraries.each_of_letter(@letter)
     cache erb(:modules_index)
   end
 
-  get %r{^/(?:(?:search|list|static)/)?github/([^/]+)/([^/]+)} do |username, project|
+  get %r{/(?:(?:search|list|static)/)?github/([^/]+)/([^/]+).*} do |username, project|
     @username, @project = username, project
     if settings.whitelisted_projects.include?("#{username}/#{project}")
       puts "Dropping safe mode for #{username}/#{project}"
@@ -384,7 +384,7 @@ class DocServer < Sinatra::Base
     result
   end
 
-  get %r{^/(?:(?:search|list|static)/)?gems/([^/]+)} do |gemname|
+  get %r{/(?:(?:search|list|static)/)?gems/([^/]+).*} do |gemname|
     return status(503) && "Cannot parse this gem" if settings.disallowed_gems.include?(gemname)
     if settings.whitelisted_gems.include?(gemname)
       puts "Dropping safe mode for #{gemname}"
@@ -396,7 +396,7 @@ class DocServer < Sinatra::Base
     result
   end
 
-  get %r{^/(?:(?:search|list|static)/)?modules/([^/]+)} do |modulename|
+  get %r{/(?:(?:search|list|static)/)?modules/([^/]+).*} do |modulename|
     return status(503) && "Cannot parse this Puppet module" if settings.disallowed_modules.include?(modulename)
     if settings.whitelisted_modules.include?(modulename)
       puts "Dropping safe mode for #{modulename}"
@@ -408,13 +408,13 @@ class DocServer < Sinatra::Base
     result
   end
 
-  get %r{^/m/([^/]+)} do |modulename|
+  get %r{/m/([^/]+)} do |modulename|
     redirect to("/modules/#{modulename}")
   end
 
   # Stdlib
 
-  get %r{^/(?:(?:search|list|static)/)?stdlib/([^/]+)} do |libname|
+  get %r{/(?:(?:search|list|static)/)?stdlib/([^/]+).*} do |libname|
     YARD::Config.options[:safe_mode] = false
     @libname = libname
     pass unless settings.stdlib_adapter.libraries[libname]
@@ -423,14 +423,14 @@ class DocServer < Sinatra::Base
     result
   end
 
-  get %r{^/stdlib/?$} do
+  get %r{/stdlib/?} do
     @stdlib = settings.stdlib_adapter.libraries
     cache erb(:stdlib_index)
   end
 
   # Featured libraries
 
-  get %r{^/(?:(?:search|list|static)/)?docs/([^/]+)(/?.*)} do |libname, extra|
+  get %r{/(?:(?:search|list|static)/)?docs/([^/]+)(/?.*)} do |libname, extra|
     YARD::Config.options[:safe_mode] = false
     @libname = libname
     lib = settings.featured_adapter.libraries[libname]
@@ -444,14 +444,14 @@ class DocServer < Sinatra::Base
     result
   end
 
-  get %r{^/(featured|docs/?$)} do
+  get %r{/(featured|docs/?)} do
     @featured = settings.featured_adapter.libraries
     cache erb(:featured_index)
   end
 
   # Simple search interfaces
 
-  get %r{^/find/github} do
+  get %r{/find/github/?.*} do
     @search = params[:q]
     @adapter = settings.scm_adapter
     @libraries = @adapter.libraries
@@ -459,7 +459,7 @@ class DocServer < Sinatra::Base
     erb(:scm_index)
   end
 
-  get %r{^/find/gems} do
+  get %r{/find/gems/?.*} do
     self.class.load_gems_adapter unless defined? settings.gems_adapter
     @search = params[:q] || ''
     @adapter = settings.gems_adapter || status(404)
@@ -467,7 +467,7 @@ class DocServer < Sinatra::Base
     erb(:gems_index)
   end
 
-  get %r{^/find/modules} do
+  get %r{/find/modules/?.*} do
     self.class.load_modules_adapter unless defined? settings.modules_adapter
     @search = params[:q] || ''
     @adapter = settings.modules_adapter || status(404)
@@ -476,22 +476,22 @@ class DocServer < Sinatra::Base
   end
 
   # Redirect /docs/ruby-core
-  get(%r{^/docs/ruby-core/?(.*)}) do |all|
+  get(%r{/docs/ruby-core/?(.*)}) do |all|
     redirect("/stdlib/core/#{all}", 301)
   end
 
   # Redirect /docs/ruby-stdlib
-  get(%r{^/docs/ruby-stdlib/?(.*)}) do |all|
+  get(%r{/docs/ruby-stdlib/?(.*)}) do |all|
     redirect("/stdlib")
   end
 
   # Old URL structure redirection for yardoc.org
 
-  get(%r{^/docs/([^/]+)-([^/]+)(/?.*)}) do |user, proj, extra|
+  get(%r{/docs/([^/]+)-([^/]+)(/?.*)}) do |user, proj, extra|
     redirect("/github/#{user}/#{proj}#{translate_file_links extra}", 301)
   end
 
-  get(%r{^/docs/([^/]+)(/?.*)}) do |lib, extra|
+  get(%r{/docs/([^/]+)(/?.*)}) do |lib, extra|
     redirect("/gems/#{lib}#{translate_file_links extra}", 301)
   end
 
@@ -499,7 +499,7 @@ class DocServer < Sinatra::Base
 
   # Old URL structure redirection for rdoc.info
 
-  get(%r{^/(?:projects|rdoc)/([^/]+)/([^/]+)(/?.*)}) do |user, proj, extra|
+  get(%r{/(?:projects|rdoc)/([^/]+)/([^/]+)(/?.*)}) do |user, proj, extra|
     redirect("/github/#{user}/#{proj}", 301)
   end
 
