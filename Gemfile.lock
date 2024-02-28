@@ -128,7 +128,7 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     version_sorter (2.3.0)
-    yard (0.9.34)
+    yard (0.9.35)
     yard-kramdown (0.0.1)
     yard-rails (0.3.0)
       yard
