@@ -17,7 +17,7 @@ GEM
       airbrake-ruby (~> 6.0)
     airbrake-ruby (6.2.2)
       rbtree3 (~> 0.6)
-    asciidoctor (2.0.20)
+    asciidoctor (2.0.22)
     base64 (0.2.0)
     bigdecimal (3.1.5)
     bluecloth (2.2.0)
