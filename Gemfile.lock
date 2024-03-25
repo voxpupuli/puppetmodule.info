@@ -59,7 +59,7 @@ GEM
       rack
       rake (>= 0.8.1)
     pg (1.5.4)
-    psych (5.1.1.1)
+    psych (5.1.2)
       stringio
     puma (6.4.2)
       nio4r (~> 2.0)
@@ -92,7 +92,7 @@ GEM
     rake (13.1.0)
     rbtree3 (0.7.1)
     rdiscount (2.2.7.1)
-    rdoc (6.6.2)
+    rdoc (6.6.3.1)
       psych (>= 4.0.0)
     redcarpet (3.6.0)
     rexml (3.2.6)
